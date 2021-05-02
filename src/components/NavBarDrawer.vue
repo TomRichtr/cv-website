@@ -2,16 +2,16 @@
   <div>
     <v-navigation-drawer
       :value="$props.drawer"
+      @input="$emit('drawer:change', $event)"
       absolute
       temporary
-      @input="$emit('drawer:change', $event)"
     >
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <v-list-item
-            v-for="({ label, icon, path }, i) in drawerActions"
             :key="i"
             @click="handleLink(path)"
+            v-for="({ label, icon, path }, i) in drawerActions"
           >
             <v-list-item-icon>
               <v-icon>{{ icon }}</v-icon>

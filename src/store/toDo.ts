@@ -4,6 +4,7 @@ interface State {
   toDoCards: ToDoCard[];
   datetimeModalOpen: boolean;
   editedToDo: ToDoCard;
+  overdueTasksCount: number;
 }
 
 type ToDoCard = {
@@ -12,6 +13,7 @@ type ToDoCard = {
   done: boolean;
   date: string;
   time: string;
+  overdue: boolean;
 };
 
 type DateTime = {
@@ -25,7 +27,12 @@ type Modal = {
 };
 
 const toDo = {
-  state: () => ({ toDoCards: [], datetimeModalOpen: false, editedToDo: "" }),
+  state: () => ({
+    toDoCards: [],
+    datetimeModalOpen: false,
+    editedToDo: "",
+    overdueTasksCount: 0
+  }),
   mutations: {
     setAddToDoCard(state: State, payload: ToDoCard) {
       state.toDoCards.push(payload);
@@ -43,13 +50,17 @@ const toDo = {
     },
     setEditedToDoCard(state: State, payload: ToDoCard) {
       state.editedToDo = payload;
-      console.log(state);
     },
     setUpdateToDoCard(state: State, payload: ToDoCard) {
       const index = state.toDoCards.findIndex((toDo) => toDo.id === payload.id);
       state.toDoCards[index].date = payload.date;
       state.toDoCards[index].time = payload.time;
       state.toDoCards[index].text = payload.text;
+      state.toDoCards[index].overdue = payload.overdue;
+    },
+    setOverdueCount(state: State) {
+      const overdueTasks = state.toDoCards.filter(({ overdue }) => !!overdue);
+      state.overdueTasksCount = overdueTasks.length;
     }
   },
   actions: {
@@ -81,6 +92,7 @@ const toDo = {
     },
     updateToDoCard({ commit }: any, updatedTo: ToDoCard) {
       commit("setUpdateToDoCard", updatedTo);
+      commit("setOverdueCount");
     }
   }
 };

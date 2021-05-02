@@ -1,14 +1,18 @@
 <template>
   <v-footer color="cyan darken-4" padless app>
     <v-row justify="end" no-gutters>
+      <div class="py-5 text-center white--text datetime-wrapper">
+        {{ ` You got ${$store.state.toDo.overdueTasksCount} overdue tasks` }}
+      </div>
+      <v-spacer />
       <div class="py-3 text-center white--text">
         <v-btn
-          icon
           :href="link"
-          target="_blank"
-          v-for="({ icon, link }, i) in links"
           :key="i"
           :title="link"
+          icon
+          target="_blank"
+          v-for="({ icon, link }, i) in links"
         >
           <v-icon class="white--text">{{ icon }}</v-icon>
         </v-btn>
@@ -23,13 +27,13 @@
 <script>
 import Vue from "vue";
 import moment from "moment";
-import { getDateTime } from "@/methods/utils";
 
 export default Vue.extend({
   name: "Footer",
   data() {
     return {
       dateTime: "",
+      overdueTasks: 0,
       links: [
         {
           link: "https://www.linkedin.com/in/trichtr/",
@@ -45,6 +49,12 @@ export default Vue.extend({
   computed: {
     dateTimeFormat() {
       return `${this.$store.state.dateFormat} ${this.$store.state.timeFormat}:ss`;
+    },
+    overdueTodoCards() {
+      const overdueCards = this.$store.state.toDo.toDoCards.filter(
+        ({ overdue }) => !!overdue
+      );
+      return overdueCards.length;
     }
   },
   mounted() {
@@ -52,10 +62,11 @@ export default Vue.extend({
   },
   methods: {
     updateDateTime() {
-      setInterval(
-        () => (this.dateTime = moment().format(this.dateTimeFormat)),
-        1000
-      );
+      setInterval(() => this.getDateTime(), 1000);
+    },
+    getDateTime() {
+      this.dateTime = moment().format(this.dateTimeFormat);
+      this.$store.dispatch("updateCurrentMils", Date.parse(new Date()));
     }
   }
 });

@@ -1,22 +1,22 @@
 <template>
   <div>
     <v-menu
-      :value="showMenu"
       :position-x="x"
       :position-y="y"
+      :value="showMenu"
+      @input="$emit('dropdown:change', $event)"
       absolute
+      bottom
       offset-y
       rounded="lg"
       transition="slide-y-transition"
-      bottom
-      @input="$emit('dropdown:change', $event)"
     >
       <v-list>
         <v-list-item
-          v-for="({ icon, label, disabled }, i) in actions"
+          :disabled="disabled"
           :key="i"
           @click="handleDropdownOption(label)"
-          :disabled="disabled"
+          v-for="({ icon, label, disabled }, i) in actions"
         >
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ label }}</v-list-item-title>
@@ -28,6 +28,7 @@
 
 <script>
 export default {
+  name: "TodoCardContextMenu",
   props: {
     showMenu: {
       type: Boolean,

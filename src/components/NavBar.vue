@@ -5,16 +5,16 @@
 
       <v-fab-transition>
         <v-btn
-          color="red"
-          class="add-button"
-          fab
-          dark
-          small
+          @click="handleAddItem"
           absolute
           bottom
+          class="add-button"
+          color="red"
+          dark
+          fab
           right
+          small
           v-if="displayAddButton"
-          @click="handleAddItem"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>

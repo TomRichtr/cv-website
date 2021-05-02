@@ -1,34 +1,34 @@
 <template>
   <v-dialog
     :value="dialog"
+    @click:outside="handleDialogChange(false)"
     max-width="350"
     transition="dialog-top-transition"
-    @click:outside="handleDialogChange(false)"
   >
     <v-card>
       <v-row justify="space-around">
         <v-date-picker
-          color="cyan darken-4"
-          v-if="displayDatePicker"
           @change="handleDateChange(false)"
-          v-model="date"
+          color="cyan darken-4"
           full-width
+          v-if="displayDatePicker"
+          v-model="date"
         />
         <v-time-picker
           color="cyan darken-4"
-          v-if="!displayDatePicker"
           format="24hr"
           full-width
           scrollable
+          v-if="!displayDatePicker"
           v-model="time"
         />
       </v-row>
       <v-card-actions>
         <v-btn
+          @click="handleDateChange(true)"
           color="cyan darken-4"
           text
           v-if="!displayDatePicker"
-          @click="handleDateChange(true)"
         >
           Back
         </v-btn>
@@ -46,7 +46,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapState } from "vuex";
 import { isEqual } from "lodash";
 
 export default Vue.extend({
