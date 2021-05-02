@@ -1,8 +1,11 @@
 <template>
   <transition name="slide-right">
     <v-app>
-      <NavBar></NavBar>
-      <Footer></Footer>
+      <NavBar />
+      <v-content>
+        <router-view />
+      </v-content>
+      <Footer />
     </v-app>
   </transition>
 </template>
@@ -15,9 +18,11 @@ import Footer from "@/components/Footer.vue";
 export default Vue.extend({
   name: "App",
   components: { NavBar, Footer },
-
-  data: () => ({
-    //
-  })
+  data() {
+    return {
+      datetimeModalOpen: false
+    };
+  },
+  methods: {}
 });
 </script>
