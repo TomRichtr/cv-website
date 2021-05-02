@@ -2,7 +2,7 @@
   <v-footer color="cyan darken-4" padless app>
     <v-row justify="end" no-gutters>
       <div class="py-5 text-center white--text datetime-wrapper">
-        {{ ` You got ${$store.state.toDo.overdueTasksCount} overdue tasks` }}
+        {{ `You got ${$store.state.toDo.overdueTasksCount} overdue tasks` }}
       </div>
       <v-spacer />
       <div class="py-3 text-center white--text">
@@ -33,7 +33,6 @@ export default Vue.extend({
   data() {
     return {
       dateTime: "",
-      overdueTasks: 0,
       links: [
         {
           link: "https://www.linkedin.com/in/trichtr/",
@@ -49,12 +48,6 @@ export default Vue.extend({
   computed: {
     dateTimeFormat() {
       return `${this.$store.state.dateFormat} ${this.$store.state.timeFormat}:ss`;
-    },
-    overdueTodoCards() {
-      const overdueCards = this.$store.state.toDo.toDoCards.filter(
-        ({ overdue }) => !!overdue
-      );
-      return overdueCards.length;
     }
   },
   mounted() {
